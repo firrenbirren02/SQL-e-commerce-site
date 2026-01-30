@@ -15,7 +15,9 @@ services:
     build: .
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.flask.rule=Host(`kolibri.campus.ltu.se`)"
+      - "traefik.http.routers.flask.rule=Host(`kolibri.campus.ltu.se`) && PathPrefix(`/flask`)"
+      - "traefik.http.middlewares.flask-strip.stripprefix.prefixes=/flask"
+      - "traefik.http.routers.flask.middlewares=flask-strip"
       - "traefik.http.services.flask.loadbalancer.server.port=5000"
     depends_on:
       - mariadb
